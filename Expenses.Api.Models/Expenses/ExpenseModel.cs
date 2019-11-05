@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Expenses.Api.Models.Expenses
 {
-    class ExpenseModel
+    public class ExpenseModel
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }

@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lynx.Api.Models", "Lynx.Api
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lynx.Api.Common", "Lynx.Api.Common\Lynx.Api.Common.csproj", "{22ADD65A-F3F1-44FC-A2B3-B627D8E06A91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lynx.Api.Services", "Lynx.Api.Service\Lynx.Api.Services.csproj", "{A0E41AB2-5CBB-4C91-8A53-EBE9CDDC4044}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lynx.Api.Services", "Lynx.Api.Service\Lynx.Api.Services.csproj", "{A0E41AB2-5CBB-4C91-8A53-EBE9CDDC4044}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lynx.Tests.UnitTests", "Lynx.Tests.UnitTests\Lynx.Tests.UnitTests.csproj", "{82C2AEA6-4F19-44F1-8B73-941526F22D8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{A0E41AB2-5CBB-4C91-8A53-EBE9CDDC4044}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0E41AB2-5CBB-4C91-8A53-EBE9CDDC4044}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0E41AB2-5CBB-4C91-8A53-EBE9CDDC4044}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82C2AEA6-4F19-44F1-8B73-941526F22D8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82C2AEA6-4F19-44F1-8B73-941526F22D8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82C2AEA6-4F19-44F1-8B73-941526F22D8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82C2AEA6-4F19-44F1-8B73-941526F22D8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

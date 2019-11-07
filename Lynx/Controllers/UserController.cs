@@ -26,14 +26,12 @@ namespace Lynx.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/User
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> Get()
         {
             return await _service.Get().ToListAsync();
         }
 
-        // GET: api/User/5
         [HttpGet("{id}")]
         public ActionResult<UserModel> Get(int id)
         {
@@ -42,9 +40,6 @@ namespace Lynx.Controllers
             return model;
         }
 
-        // PUT: api/User/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
         public async Task<ActionResult<UserModel>> Update(int id, UpdateUserModel user)
         {
@@ -53,9 +48,6 @@ namespace Lynx.Controllers
             return model;
         }
 
-        // POST: api/User
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public async Task<ActionResult<UserModel>> Add(CreateUserModel user)
         {
@@ -65,7 +57,6 @@ namespace Lynx.Controllers
             return model;
         }
 
-        // DELETE: api/User/5
         [HttpDelete("{id}")]
         public async Task Remove(int id)
         {

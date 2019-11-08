@@ -108,6 +108,8 @@ namespace Lynx.Api.Services
             user.FirstName = model.FirstName;
             user.Username = model.Username;
 
+            AddUserRoles(user, model.Roles);
+
             await _uow.CommitAsync();
             return user;
         }

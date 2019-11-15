@@ -1,0 +1,37 @@
+h4{
+    background: white;
+    left: 1em;
+    position: relative;
+    z-index: 2;
+    width: fit-content;
+}
+.details{
+    left: 1em;
+    width: 15em;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    position: relative;
+    top: -1em;
+    z-index: 1;
+    padding-left: 1em;
+    padding-top: 1em;
+}
+.details>.badge{
+    display: inline-block;
+    font-size: small;
+    color: white;
+    padding: 0.4em 0.7em 0 0.7em;
+    background-color: #405061;
+    line-height: 1em;
+    position: relative;
+    top: -2px;
+    left: 1em;
+    height: 2em;
+    min-width: 16px;
+    text-align: right;
+    margin-right: .8em;
+}
+button{
+    position: absolute;
+    left: 1em;
+}

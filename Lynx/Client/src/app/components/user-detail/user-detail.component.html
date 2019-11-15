@@ -1,0 +1,8 @@
+<h4>User Details</h4>
+<div class="details" *ngIf="user">
+    <span>{{user.firstName | titlecase }} {{user.lastName | uppercase}}</span>
+    <span class="badge" [style.background]='activeColor'>{{user.isActive?'Active':'Not active'}}</span>
+    <p>Roles: {{user.roles.join('\n')| titlecase}}</p>
+</div>
+
+<button class="btn btn-secondary" (click)="goBack()" >Back</button>

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Lynx.Data.Access.DAL;
-using Lynx.Data.Model;
+using Lynx.Data.Models;
 
 namespace Lynx.Controllers
 {

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Lynx.Api.Model.Users;
-using Lynx.Data.Model;
+using Lynx.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

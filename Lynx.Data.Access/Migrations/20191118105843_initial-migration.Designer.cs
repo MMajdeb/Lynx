@@ -2,15 +2,17 @@
 using Lynx.Data.Access.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Lynx.Data.Access.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191118105843_initial-migration")]
+    partial class initialmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,7 @@ namespace Lynx.Data.Access.Migrations
                     b.Property<string>("Street")
                         .HasColumnType("text");
 
-                    b.Property<string>("TaxeResisterNumber")
+                    b.Property<string>("TaxeId")
                         .HasColumnType("text");
 
                     b.Property<int>("Type")
@@ -70,7 +72,7 @@ namespace Lynx.Data.Access.Migrations
 
                     b.HasIndex("ManagerId");
 
-                    b.ToTable("BusinessUnits");
+                    b.ToTable("BusinessUnit");
                 });
 
             modelBuilder.Entity("Lynx.Data.Models.Client", b =>
@@ -88,7 +90,7 @@ namespace Lynx.Data.Access.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Client");
                 });
 
             modelBuilder.Entity("Lynx.Data.Models.Role", b =>
@@ -136,28 +138,6 @@ namespace Lynx.Data.Access.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Lynx.Data.Models.UserBusinessUnit", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("BusinessUnitId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BusinessUnitId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserBusinessUnits");
-                });
-
             modelBuilder.Entity("Lynx.Data.Models.UserRole", b =>
                 {
                     b.Property<int>("Id")
@@ -191,21 +171,6 @@ namespace Lynx.Data.Access.Migrations
                     b.HasOne("Lynx.Data.Models.User", "Manager")
                         .WithMany("BusinessUnits")
                         .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Lynx.Data.Models.UserBusinessUnit", b =>
-                {
-                    b.HasOne("Lynx.Data.Models.BusinessUnit", "BusinessUnit")
-                        .WithMany()
-                        .HasForeignKey("BusinessUnitId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Lynx.Data.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

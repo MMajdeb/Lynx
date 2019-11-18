@@ -4,8 +4,4 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Lynx.Enum\Lynx.Enum.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -3,7 +3,7 @@ using Lynx.Api.Common.Exceptions;
 using Lynx.Api.Model.Users;
 using Lynx.Api.Services;
 using Lynx.Data.Access.DAL.UnitOfWork;
-using Lynx.Data.Model;
+using Lynx.Data.Models;
 using Moq;
 using System;
 using System.Collections.Generic;

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lynx.Data.Model
+namespace Lynx.Data.Models
 {
     public class User
     {
         public User()
         {
             Roles = new List<UserRole>();
+            BusinessUnits = new List<BusinessUnit>();
         }
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -19,5 +20,6 @@ namespace Lynx.Data.Model
         public bool IsDeleted { get; set; }
 
         public virtual IList<UserRole> Roles { get; set; }
+        public virtual IList<BusinessUnit> BusinessUnits { get; set; }
     }
 }

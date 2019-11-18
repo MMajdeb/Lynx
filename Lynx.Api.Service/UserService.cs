@@ -7,7 +7,7 @@ using Lynx.Api.Common.Exceptions;
 using Lynx.Api.Model.Users;
 using Lynx.Data.Access.DAL.UnitOfWork;
 using Lynx.Data.Access.Helpers;
-using Lynx.Data.Model;
+using Lynx.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lynx.Api.Services

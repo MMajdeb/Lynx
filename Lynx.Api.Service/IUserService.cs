@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lynx.Api.Model.Users;
-using Lynx.Data.Model;
+using Lynx.Data.Models;
 
 namespace Lynx.Api.Services
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lynx.Data.Model
+namespace Lynx.Data.Models
 {
     public class Role
     {

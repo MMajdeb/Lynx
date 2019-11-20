@@ -3,48 +3,23 @@ using System;
 using Lynx.Data.Access.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Lynx.Data.Access.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191119111331_bills")]
+    partial class bills
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
-
-            modelBuilder.Entity("Lynx.Data.Models.Bank", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Balance")
-                        .HasColumnType("text");
-
-                    b.Property<string>("BankName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Iban")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Banks");
-                });
 
             modelBuilder.Entity("Lynx.Data.Models.Bill", b =>
                 {
@@ -55,15 +30,6 @@ namespace Lynx.Data.Access.Migrations
 
                     b.Property<string>("Address")
                         .HasColumnType("text");
-
-                    b.Property<int?>("BankId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("BusinessUnitId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("CashierId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("City")
                         .HasColumnType("text");
@@ -129,12 +95,6 @@ namespace Lynx.Data.Access.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BankId");
-
-                    b.HasIndex("BusinessUnitId");
-
-                    b.HasIndex("CashierId");
 
                     b.HasIndex("PartnerId");
 
@@ -213,9 +173,6 @@ namespace Lynx.Data.Access.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("ManagerId")
                         .HasColumnType("integer");
 
@@ -252,35 +209,6 @@ namespace Lynx.Data.Access.Migrations
                     b.ToTable("BusinessUnits");
                 });
 
-            modelBuilder.Entity("Lynx.Data.Models.Cashier", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<double>("Balance")
-                        .HasColumnType("double precision");
-
-                    b.Property<int>("BusinessUnitId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BusinessUnitId");
-
-                    b.ToTable("Cashiers");
-                });
-
             modelBuilder.Entity("Lynx.Data.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -311,26 +239,8 @@ namespace Lynx.Data.Access.Migrations
                     b.Property<string>("About")
                         .HasColumnType("text");
 
-                    b.Property<string>("Country")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Mobile")
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
-
-                    b.Property<double>("Revenue")
-                        .HasColumnType("double precision");
 
                     b.HasKey("Id");
 
@@ -527,48 +437,6 @@ namespace Lynx.Data.Access.Migrations
                     b.ToTable("Partners");
                 });
 
-            modelBuilder.Entity("Lynx.Data.Models.Payment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("double precision");
-
-                    b.Property<int>("BillId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
-
-                    b.Property<int>("PartnerId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Reference")
-                        .HasColumnType("text");
-
-                    b.Property<double>("Rest")
-                        .HasColumnType("double precision");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BillId");
-
-                    b.HasIndex("PartnerId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Payments");
-                });
-
             modelBuilder.Entity("Lynx.Data.Models.Store", b =>
                 {
                     b.Property<int>("Id")
@@ -607,58 +475,6 @@ namespace Lynx.Data.Access.Migrations
                     b.ToTable("Taxes");
                 });
 
-            modelBuilder.Entity("Lynx.Data.Models.Transfert", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("double precision");
-
-                    b.Property<int?>("FromBankId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("FromCashierId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("OperationDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int?>("ToBankId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ToCashierId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("TransertDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FromBankId");
-
-                    b.HasIndex("FromCashierId");
-
-                    b.HasIndex("ToBankId");
-
-                    b.HasIndex("ToCashierId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Transferts");
-                });
-
             modelBuilder.Entity("Lynx.Data.Models.Unit", b =>
                 {
                     b.Property<int>("Id")
@@ -695,9 +511,6 @@ namespace Lynx.Data.Access.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
@@ -720,8 +533,6 @@ namespace Lynx.Data.Access.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
 
                     b.ToTable("Users");
                 });
@@ -750,20 +561,6 @@ namespace Lynx.Data.Access.Migrations
 
             modelBuilder.Entity("Lynx.Data.Models.Bill", b =>
                 {
-                    b.HasOne("Lynx.Data.Models.Bank", "Bank")
-                        .WithMany("Bills")
-                        .HasForeignKey("BankId");
-
-                    b.HasOne("Lynx.Data.Models.BusinessUnit", "BusinessUnit")
-                        .WithMany("Bills")
-                        .HasForeignKey("BusinessUnitId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Lynx.Data.Models.Cashier", "Cashier")
-                        .WithMany("Bills")
-                        .HasForeignKey("CashierId");
-
                     b.HasOne("Lynx.Data.Models.Partner", "Partner")
                         .WithMany("Bills")
                         .HasForeignKey("PartnerId");
@@ -807,15 +604,6 @@ namespace Lynx.Data.Access.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Lynx.Data.Models.Cashier", b =>
-                {
-                    b.HasOne("Lynx.Data.Models.BusinessUnit", "BusinessUnit")
-                        .WithMany("Cashiers")
-                        .HasForeignKey("BusinessUnitId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Lynx.Data.Models.Category", b =>
                 {
                     b.HasOne("Lynx.Data.Models.Category", "Parent")
@@ -848,27 +636,6 @@ namespace Lynx.Data.Access.Migrations
                         .HasForeignKey("TaxeId");
                 });
 
-            modelBuilder.Entity("Lynx.Data.Models.Payment", b =>
-                {
-                    b.HasOne("Lynx.Data.Models.Bill", "Bill")
-                        .WithMany("Payments")
-                        .HasForeignKey("BillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Lynx.Data.Models.Partner", "Partner")
-                        .WithMany()
-                        .HasForeignKey("PartnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Lynx.Data.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Lynx.Data.Models.Store", b =>
                 {
                     b.HasOne("Lynx.Data.Models.BusinessUnit", "BusinessUnit")
@@ -878,45 +645,11 @@ namespace Lynx.Data.Access.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Lynx.Data.Models.Transfert", b =>
-                {
-                    b.HasOne("Lynx.Data.Models.Bank", "FromBank")
-                        .WithMany()
-                        .HasForeignKey("FromBankId");
-
-                    b.HasOne("Lynx.Data.Models.Cashier", "FromCashier")
-                        .WithMany()
-                        .HasForeignKey("FromCashierId");
-
-                    b.HasOne("Lynx.Data.Models.Bank", "ToBank")
-                        .WithMany()
-                        .HasForeignKey("ToBankId");
-
-                    b.HasOne("Lynx.Data.Models.Cashier", "ToCashier")
-                        .WithMany()
-                        .HasForeignKey("ToCashierId");
-
-                    b.HasOne("Lynx.Data.Models.User", "User")
-                        .WithMany("Transferts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Lynx.Data.Models.Unit", b =>
                 {
                     b.HasOne("Lynx.Data.Models.Item", "Item")
                         .WithMany("Units")
                         .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Lynx.Data.Models.User", b =>
-                {
-                    b.HasOne("Lynx.Data.Models.Client", "Client")
-                        .WithMany("Users")
-                        .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

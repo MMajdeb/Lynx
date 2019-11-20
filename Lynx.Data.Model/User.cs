@@ -6,11 +6,6 @@ namespace Lynx.Data.Models
 {
     public class User
     {
-        public User()
-        {
-            Roles = new List<UserRole>();
-            BusinessUnits = new List<BusinessUnit>();
-        }
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -18,8 +13,12 @@ namespace Lynx.Data.Models
         public string Password { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime LastConnection { get; set; }
+        public int ClientId { get; set; }
+        public virtual Client Client { get; set; }
 
-        public virtual IList<UserRole> Roles { get; set; }
         public virtual IList<BusinessUnit> BusinessUnits { get; set; }
+        public virtual IList<Bill> Bills { get; set; }
+        public virtual IList<Transfert> Transferts { get; set; }
     }
 }

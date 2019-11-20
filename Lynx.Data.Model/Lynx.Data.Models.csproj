@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lynx.Api.Common\Lynx.Api.Common.csproj" />
     <ProjectReference Include="..\Lynx.Enum\Lynx.Enum.csproj" />
   </ItemGroup>
 

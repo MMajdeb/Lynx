@@ -3,15 +3,17 @@ using System;
 using Lynx.Data.Access.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Lynx.Data.Access.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191119134651_all-models")]
+    partial class allmodels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -213,9 +215,6 @@ namespace Lynx.Data.Access.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("ManagerId")
                         .HasColumnType("integer");
 
@@ -311,26 +310,8 @@ namespace Lynx.Data.Access.Migrations
                     b.Property<string>("About")
                         .HasColumnType("text");
 
-                    b.Property<string>("Country")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Mobile")
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
-
-                    b.Property<double>("Revenue")
-                        .HasColumnType("double precision");
 
                     b.HasKey("Id");
 
@@ -695,9 +676,6 @@ namespace Lynx.Data.Access.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
@@ -720,8 +698,6 @@ namespace Lynx.Data.Access.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
 
                     b.ToTable("Users");
                 });
@@ -908,15 +884,6 @@ namespace Lynx.Data.Access.Migrations
                     b.HasOne("Lynx.Data.Models.Item", "Item")
                         .WithMany("Units")
                         .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Lynx.Data.Models.User", b =>
-                {
-                    b.HasOne("Lynx.Data.Models.Client", "Client")
-                        .WithMany("Users")
-                        .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

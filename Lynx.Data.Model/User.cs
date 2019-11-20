@@ -6,6 +6,11 @@ namespace Lynx.Data.Models
 {
     public class User
     {
+        public User()
+        {
+            BusinessUnits = new List<BusinessUnit>();
+        }
+
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

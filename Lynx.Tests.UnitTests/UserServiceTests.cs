@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Lynx.Api.Common.Exceptions;
 using Lynx.Api.Model.Users;
+using Lynx.Api.Models.Client;
 using Lynx.Api.Services;
 using Lynx.Data.Access.DAL.UnitOfWork;
 using Lynx.Data.Models;
@@ -17,21 +18,22 @@ namespace Lynx.Tests.UnitTests
     public class UserServiceTests
     {
         private Mock<IUnitOfWork> _uow;
-        private IUserService _service;
+        private IUserService _userService;
+        private IClientService _clientService;
+        private IBusinessUnitService _businessUnitService;
         private List<User> _users;
-        private List<Role> _roles;
         private Random _random;
         public UserServiceTests()
         {
             _random = new Random();
             _uow = new Mock<IUnitOfWork>();
 
-            _roles = new List<Role>();
             _users = new List<User>();
 
-            _service = new UserService(_uow.Object);
+            _clientService = new ClientService(_uow.Object);
+            _businessUnitService = new BusinessUnitService(_uow.Object, _clientService);
+            _userService = new UserService(_uow.Object, _clientService, _businessUnitService);
 
-            _uow.Setup(x => x.Get<Role>()).Returns(() => _roles.AsQueryable());
             _uow.Setup(x => x.Get<User>()).Returns(() => _users.AsQueryable());
         }
 
@@ -40,7 +42,7 @@ namespace Lynx.Tests.UnitTests
         {
             _users.Add(new User());
 
-            var result = _service.Get();
+            var result = _userService.Get();
             result.Should().HaveCount(1);
         }
 
@@ -52,7 +54,7 @@ namespace Lynx.Tests.UnitTests
             _users.Add(new User { IsDeleted = true });
             _users.Add(new User());
 
-            var result = _service.Get();
+            var result = _userService.Get();
             result.Count().Should().Be(2);
         }
         [Fact]
@@ -61,7 +63,7 @@ namespace Lynx.Tests.UnitTests
             var user = new User { Id = _random.Next() };
             _users.Add(user);
 
-            var result = _service.Get(user.Id);
+            var result = _userService.Get(user.Id);
             result.Should().Be(user);
         }
 
@@ -73,7 +75,7 @@ namespace Lynx.Tests.UnitTests
 
             Action get = () =>
             {
-                _service.Get(_random.Next());
+                _userService.Get(_random.Next());
             };
 
             get.Should().Throw<NotFoundException>();
@@ -87,7 +89,7 @@ namespace Lynx.Tests.UnitTests
 
             Action get = () =>
             {
-                _service.Get(user.Id);
+                _userService.Get(user.Id);
             };
 
             get.Should().Throw<NotFoundException>();
@@ -96,47 +98,35 @@ namespace Lynx.Tests.UnitTests
         [Fact]
         public async Task CreateShouldSaveNewUser()
         {
+            var client = new ClientModel
+            {
+                Name = _random.Next().ToString(),
+                Mobile = _random.Next().ToString()
+            };
+
+            var newClient = await _clientService.Create(client);
+
             var model = new CreateUserModel
             {
                 Password = _random.Next().ToString(),
                 Username = _random.Next().ToString(),
                 LastName = _random.Next().ToString(),
                 FirstName = _random.Next().ToString(),
+                LastConnection = DateTime.Now,
+                ClientId = newClient.Id,
             };
 
-            var result = await _service.Create(model);
+            var result = await _userService.Create(model);
 
             result.Password.Should().NotBeEmpty();
             result.Username.Should().Be(model.Username);
             result.LastName.Should().Be(model.LastName);
             result.FirstName.Should().Be(model.FirstName);
+            result.LastConnection.Should().Be(model.LastConnection);
+            result.ClientId.Should().Be(model.ClientId);
 
             _uow.Verify(x => x.Add(result));
             _uow.Verify(x => x.CommitAsync());
-        }
-
-        [Fact]
-        public async Task CreateShouldAddUserRoles()
-        {
-            var role = new Role
-            {
-                Name = _random.Next().ToString()
-            };
-            _roles.Add(role);
-
-            var model = new CreateUserModel
-            {
-                Password = _random.Next().ToString(),
-                Username = _random.Next().ToString(),
-                LastName = _random.Next().ToString(),
-                FirstName = _random.Next().ToString(),
-                Roles = new[] { role.Name }
-            };
-
-            var result = await _service.Create(model);
-
-            result.Roles.Should().HaveCount(1);
-            result.Roles.Should().Contain(x => x.User == result && x.Role == role);
         }
 
         [Fact]
@@ -151,7 +141,7 @@ namespace Lynx.Tests.UnitTests
 
             Action create = () =>
             {
-                var x = _service.Create(model).Result;
+                var x = _userService.Create(model).Result;
             };
 
             create.Should().Throw<BadRequestException>();
@@ -170,7 +160,7 @@ namespace Lynx.Tests.UnitTests
                 FirstName = _random.Next().ToString(),
             };
 
-            var result = await _service.Update(user.Id, model);
+            var result = await _userService.Update(user.Id, model);
 
             result.Should().Be(user);
             result.Username.Should().Be(model.Username);
@@ -181,43 +171,11 @@ namespace Lynx.Tests.UnitTests
         }
 
         [Fact]
-        public async Task UpdateShouldUpdateRoles()
-        {
-            var role = new Role
-            {
-                Name = _random.Next().ToString()
-            };
-            _roles.Add(role);
-
-            var user = new User
-            {
-                Id = _random.Next(),
-                Roles = new List<UserRole>
-                {
-                    new UserRole()
-                }
-            };
-            _users.Add(user);
-
-            var model = new UpdateUserModel
-            {
-                LastName = _random.Next().ToString(),
-                FirstName = _random.Next().ToString(),
-                Roles = new[] { role.Name }
-            };
-
-            var result = await _service.Update(user.Id, model);
-
-            result.Roles.Should().HaveCount(1);
-            result.Roles.Should().Contain(x => x.User == result && x.Role == role);
-        }
-
-        [Fact]
         public void UpdateShoudlThrowExceptionIfUserIsNotFound()
         {
             Action create = () =>
             {
-                var result = _service.Update(_random.Next(), new UpdateUserModel()).Result;
+                var result = _userService.Update(_random.Next(), new UpdateUserModel()).Result;
             };
 
             create.Should().Throw<NotFoundException>();
@@ -229,7 +187,7 @@ namespace Lynx.Tests.UnitTests
             var user = new User { Id = _random.Next() };
             _users.Add(user);
 
-            await _service.Remove(user.Id);
+            await _userService.Remove(user.Id);
 
             user.IsDeleted.Should().BeTrue();
 
@@ -241,7 +199,7 @@ namespace Lynx.Tests.UnitTests
         {
             Action create = () =>
             {
-                _service.Remove(_random.Next()).Wait();
+                _userService.Remove(_random.Next()).Wait();
             };
 
             create.Should().Throw<NotFoundException>();
@@ -255,7 +213,7 @@ namespace Lynx.Tests.UnitTests
 
             var newPassword = _random.Next().ToString();
 
-            await _service.ChangePassword(user.Id, new ChangeUserPasswordModel
+            await _userService.ChangePassword(user.Id, new ChangeUserPasswordModel
             {
                 Password = newPassword
             });

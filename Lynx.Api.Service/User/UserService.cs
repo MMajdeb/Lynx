@@ -15,9 +15,13 @@ namespace Lynx.Api.Services
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _uow;
-        public UserService(IUnitOfWork uow)
+        private readonly IClientService _clientService;
+        private readonly IBusinessUnitService _businessUnitService;
+        public UserService(IUnitOfWork uow, IClientService clientService, IBusinessUnitService businessUnitService)
         {
             _uow = uow;
+            _clientService = clientService;
+            _businessUnitService = businessUnitService;
         }
 
         public async Task ChangePassword(int id, ChangeUserPasswordModel model)
@@ -41,9 +45,12 @@ namespace Lynx.Api.Services
                 Username = model.Username,
                 Password = model.Password.WithBCrypt(),
                 IsActive = model.IsActive,
+                LastConnection = model.LastConnection,
+                ClientId = model.ClientId,
             };
 
-            AddUserRoles(user, model.Roles);
+            AddBusinessUnits(user, model.BusinessUnits);
+            AddClient(user, model.ClientId);
 
             _uow.Add<User>(user);
             await _uow.CommitAsync();
@@ -51,21 +58,19 @@ namespace Lynx.Api.Services
             return user;
         }
 
-        private void AddUserRoles(User user, string[] roleNames)
+        private void AddClient(User user, int clientId)
         {
-            user.Roles.Clear();
-            foreach (var name in roleNames)
+            var client = _clientService.Get(clientId);
+            user.Client = client;
+        }
+
+        private void AddBusinessUnits(User user, int[] businessUnitIds)
+        {
+            user.BusinessUnits.Clear();
+            foreach (int id in businessUnitIds)
             {
-                var role = _uow.Get<Role>().FirstOrDefault(x => x.Name == name);
-                if (role == null)
-                {
-                    throw new BadRequestException($"Role - {name} is not found");
-                }
-                user.Roles.Add(new UserRole
-                {
-                    User = user,
-                    Role = role
-                });
+                var bu = _businessUnitService.Get(id);
+                user.BusinessUnits.Add(bu);
             }
         }
 
@@ -82,9 +87,7 @@ namespace Lynx.Api.Services
         public IQueryable<User> Get()
         {
             var query = _uow.Get<User>()
-                .Where(x => !x.IsDeleted)
-                .Include(x => x.Roles)
-                .ThenInclude(x => x.Role);
+                .Where(x => !x.IsDeleted);
 
             return query;
         }
@@ -107,8 +110,11 @@ namespace Lynx.Api.Services
             user.LastName = model.LastName;
             user.FirstName = model.FirstName;
             user.Username = model.Username;
+            user.LastConnection = model.LastConnection;
+            user.ClientId = model.ClientId;
 
-            AddUserRoles(user, model.Roles);
+            AddBusinessUnits(user, model.BusinessUnits);
+            AddClient(user, model.ClientId);
 
             await _uow.CommitAsync();
             return user;

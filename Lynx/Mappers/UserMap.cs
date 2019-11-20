@@ -13,7 +13,7 @@ namespace Lynx.Mappers
         public void Configure(IMapperConfigurationExpression configuration)
         {
             var map = configuration.CreateMap<User, UserModel>();
-            map.ForMember(x => x.Roles, x => x.MapFrom(u => u.Roles.Select(r => r.Role.Name).ToArray()));
+            //map.ForMember(x => x.Roles, x => x.MapFrom(u => u.Roles.Select(r => r.Role.Name).ToArray()));
         }
     }
 }

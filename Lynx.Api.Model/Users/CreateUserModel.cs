@@ -9,7 +9,7 @@ namespace Lynx.Api.Model.Users
     {
         public CreateUserModel()
         {
-            Roles = new string[0];
+            BusinessUnits = new int[0];
         }
 
         [Required]
@@ -22,6 +22,10 @@ namespace Lynx.Api.Model.Users
         public string LastName { get; set; }
         [Required]
         public bool IsActive { get; set; }
-        public string[] Roles { get; set; }
+        [Required]
+        public DateTime LastConnection { get; set; }
+        public int[] BusinessUnits { get; set; }
+        [Required]
+        public int ClientId { get; set; }
     }
 }

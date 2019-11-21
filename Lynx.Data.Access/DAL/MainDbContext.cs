@@ -1,7 +1,9 @@
 ﻿using Lynx.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -9,6 +11,11 @@ namespace Lynx.Data.Access.DAL
 {
     public class MainDbContext : DbContext
     {
+        public MainDbContext() 
+        {
+
+        }
+
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
         {
 
@@ -33,6 +40,18 @@ namespace Lynx.Data.Access.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                var configuration = new ConfigurationBuilder()
+                   .SetBasePath(Directory.GetCurrentDirectory())
+                   .AddJsonFile("appsettings.json")
+                   .Build();
+                var connectionString = configuration.GetConnectionString("DefaultConnection");
+                optionsBuilder.UseNpgsql(connectionString);
+            }
         }
     }
 }

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Lynx.Data.Access.DAL;
 using Lynx.Data.Models;
 using Lynx.Api.Services;
 using Lynx.Api.Model.Users;
@@ -27,15 +23,16 @@ namespace Lynx.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> Get()
+        public async Task<ActionResult<IEnumerable<UserModel>>> Get()
         {
-            return await _service.Get().ToListAsync();
+            var data = await _service.Get().ToListAsync();
+            return _mapper.Map<List<UserModel>>(data);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<UserModel> Get(int id)
+        public async Task<ActionResult<UserModel>> Get(int id)
         {
-            var user = _service.Get(id);
+            var user = await _service.Get(id);
             var model = _mapper.Map<UserModel>(user);
             return model;
         }
@@ -49,7 +46,7 @@ namespace Lynx.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserModel>> Add(CreateUserModel user)
+        public async Task<ActionResult<UserModel>> Create(CreateUserModel user)
         {
             var item = await _service.Create(user);
 

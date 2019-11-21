@@ -26,7 +26,7 @@ namespace Lynx.Api.Services
 
         public async Task ChangePassword(int id, ChangeUserPasswordModel model)
         {
-            var user = Get(id);
+            var user = await Get(id);
             user.Password = model.Password.WithBCrypt();
             await _uow.CommitAsync();
         }
@@ -49,8 +49,8 @@ namespace Lynx.Api.Services
                 ClientId = model.ClientId,
             };
 
-            AddBusinessUnits(user, model.BusinessUnits);
-            AddClient(user, model.ClientId);
+            await AddBusinessUnits(user, model.BusinessUnits);
+            await AddClient(user, model.ClientId);
 
             _uow.Add<User>(user);
             await _uow.CommitAsync();
@@ -58,25 +58,25 @@ namespace Lynx.Api.Services
             return user;
         }
 
-        private void AddClient(User user, int clientId)
+        private async Task AddClient(User user, int clientId)
         {
-            var client = _clientService.Get(clientId);
+            var client = await _clientService.Get(clientId);
             user.Client = client;
         }
 
-        private void AddBusinessUnits(User user, int[] businessUnitIds)
+        private async Task AddBusinessUnits(User user, int[] businessUnitIds)
         {
             user.BusinessUnits.Clear();
             foreach (int id in businessUnitIds)
             {
-                var bu = _businessUnitService.Get(id);
+                var bu = await _businessUnitService.Get(id);
                 user.BusinessUnits.Add(bu);
             }
         }
 
         public async Task Remove(int id)
         {
-            var user = Get(id);
+            var user = await Get(id);
 
             if (user.IsDeleted) return;
 
@@ -87,14 +87,16 @@ namespace Lynx.Api.Services
         public IQueryable<User> Get()
         {
             var query = _uow.Get<User>()
-                .Where(x => !x.IsDeleted);
+                .Where(x => !x.IsDeleted)
+                .Include(x => x.Client)
+                .ThenInclude(x => x.BusinessUnits);
 
             return query;
         }
 
-        public User Get(int id)
+        public async Task<User> Get(int id)
         {
-            var user = Get().FirstOrDefault(x => x.Id == id);
+            var user = await Get().FirstOrDefaultAsync(x => x.Id == id);
             if (user == null)
             {
                 throw new NotFoundException("User is not found");
@@ -104,7 +106,7 @@ namespace Lynx.Api.Services
 
         public async Task<User> Update(int id, UpdateUserModel model)
         {
-            var user = Get(id);
+            var user = await Get(id);
 
             user.IsActive = model.IsActive;
             user.LastName = model.LastName;

@@ -16,6 +16,7 @@ namespace Lynx.Data.Access.DAL.UnitOfWork
         void Update<T>(T obj) where T : class;
         void Remove<T>(T obj) where T : class;
         IQueryable<T> Get<T>() where T : class;
+        Task<T> Get<T>(int id) where T : class;
         void Commit();
         Task CommitAsync();
         void Attach<T>(T obj) where T : class;

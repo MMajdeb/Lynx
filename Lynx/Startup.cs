@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Lynx.Api.Services;
 using Lynx.Data.Access.DAL;
@@ -39,7 +41,8 @@ namespace Lynx
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             
             services.AddScoped<IUnitOfWork>(ctx => new EfUnitOfWork(ctx.GetRequiredService<MainDbContext>()));
-            services.AddScoped<IUserService, UserService>();
+            
+            AddApiServices(services);
 
             services.AddCors(options =>
             {
@@ -73,6 +76,8 @@ namespace Lynx
                 app.UseDeveloperExceptionPage();
             }
 
+            InitDatabase(app);
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -92,6 +97,29 @@ namespace Lynx
             {
                 endpoints.MapControllers();
             });
+        }
+        private void InitDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<MainDbContext>();
+                context.Database.Migrate();
+            }
+        }
+        private static void AddApiServices(IServiceCollection services)
+        {
+            var exampleProcessorType = typeof(UserService);
+            var types = (from t in exampleProcessorType.GetTypeInfo().Assembly.GetTypes()
+                         where t.Namespace == exampleProcessorType.Namespace
+                               && t.GetTypeInfo().IsClass
+                               && t.GetTypeInfo().GetCustomAttribute<CompilerGeneratedAttribute>() == null
+                         select t).ToArray();
+
+            foreach (var type in types)
+            {
+                var interfaceQ = type.GetTypeInfo().GetInterfaces().First();
+                services.AddScoped(interfaceQ, type);
+            }
         }
     }
 }

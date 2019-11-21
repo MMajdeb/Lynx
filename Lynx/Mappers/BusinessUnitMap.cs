@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Lynx.Api.Model.Users;
+using Lynx.Api.Models.BusinessUnit;
 using Lynx.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -8,12 +8,11 @@ using System.Threading.Tasks;
 
 namespace Lynx.Mappers
 {
-    public class UserMap : IAutoMapperTypeConfigurator
+    public class BusinessUnitMap : IAutoMapperTypeConfigurator
     {
         public void Configure(IMapperConfigurationExpression configuration)
         {
-            var map = configuration.CreateMap<User, UserModel>();
-            map.ForMember(x => x.BusinessUnits, x => x.MapFrom(u => u.BusinessUnits.Select(r => r.Id).ToArray()));
+            var map = configuration.CreateMap<BusinessUnit, BusinessUnitModel>();
         }
     }
 }

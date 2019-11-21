@@ -11,7 +11,7 @@ namespace Lynx.Api.Services
     public interface IBusinessUnitService
     {
         IQueryable<BusinessUnit> Get();
-        BusinessUnit Get(int id);
+        Task<BusinessUnit> Get(int id);
         Task<BusinessUnit> Create(BusinessUnitModel model);
         Task<BusinessUnit> Update(int id, BusinessUnitModel model);
         Task Remove(int id);

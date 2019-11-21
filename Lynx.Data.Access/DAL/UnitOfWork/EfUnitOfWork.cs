@@ -51,6 +51,10 @@ namespace Lynx.Data.Access.DAL.UnitOfWork
         {
             return _dbContext.Set<T>();
         }
+        public async Task<T> Get<T>(int id) where T : class
+        {
+            return await _dbContext.Set<T>().FindAsync(id);
+        }
 
         public void Remove<T>(T obj) where T : class
         {
@@ -69,5 +73,6 @@ namespace Lynx.Data.Access.DAL.UnitOfWork
         {
             _dbContext = null;
         }
+
     }
 }

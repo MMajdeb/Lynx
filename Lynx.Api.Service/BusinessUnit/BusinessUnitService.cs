@@ -7,6 +7,7 @@ using Lynx.Api.Common.Exceptions;
 using Lynx.Api.Models.BusinessUnit;
 using Lynx.Data.Access.DAL.UnitOfWork;
 using Lynx.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lynx.Api.Services
 {
@@ -23,9 +24,9 @@ namespace Lynx.Api.Services
         public async Task<BusinessUnit> Create(BusinessUnitModel model)
         {
             var name = model.Name.Trim();
-            var client = _clientService.Get(model.ClientId);
+            var client = await _clientService.Get(model.ClientId);
 
-            if (Get().Any(x => x.Name == name && x.Client == client))
+            if (Get().Any(x => x.Name == name && x.ClientId == client.Id))
             {
                 throw new BadRequestException("Business Unit is already exist");
             }
@@ -72,9 +73,9 @@ namespace Lynx.Api.Services
             return _uow.Get<BusinessUnit>();
         }
 
-        public BusinessUnit Get(int id)
+        public async Task<BusinessUnit> Get(int id)
         {
-            var bu = _uow.Get<BusinessUnit>().FirstOrDefault(x => x.Id == id);
+            var bu = await Get().FirstOrDefaultAsync(x => x.Id == id);
             if (bu == null)
             {
                 throw new NotFoundException("Business Unit is not found");
@@ -84,7 +85,7 @@ namespace Lynx.Api.Services
 
         public async Task Remove(int id)
         {
-            var bu = Get(id);
+            var bu = await Get(id);
             if (bu.IsDeleted) return;
 
             bu.IsDeleted = true;
@@ -93,7 +94,7 @@ namespace Lynx.Api.Services
 
         public async Task<BusinessUnit> Update(int id, BusinessUnitModel model)
         {
-            var bu = Get(id);
+            var bu = await Get(id);
 
             bu.About = model.About;
             bu.Address = model.Address;

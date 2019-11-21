@@ -7,6 +7,7 @@ using Lynx.Api.Common.Exceptions;
 using Lynx.Api.Models.Client;
 using Lynx.Data.Access.DAL.UnitOfWork;
 using Lynx.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lynx.Api.Services
 {
@@ -34,7 +35,7 @@ namespace Lynx.Api.Services
                 IsActive = model.IsActive,
                 Mobile = model.Mobile,
                 Name = model.Name,
-                Revenue=model.Revenue,
+                Revenue = model.Revenue,
             };
 
             _uow.Add<Client>(client);
@@ -45,12 +46,13 @@ namespace Lynx.Api.Services
 
         public IQueryable<Client> Get()
         {
-            return _uow.Get<Client>();
+            return _uow.Get<Client>()
+                .Include(x => x.BusinessUnits);
         }
 
-        public Client Get(int id)
+        public async Task<Client> Get(int id)
         {
-            var client = _uow.Get<Client>().FirstOrDefault(x => x.Id == id);
+            var client = await Get().FirstOrDefaultAsync(x => x.Id == id);
             if (client == null)
             {
                 throw new NotFoundException("Client is not found");
@@ -60,7 +62,7 @@ namespace Lynx.Api.Services
 
         public async Task Remove(int id)
         {
-            var client = Get(id);
+            var client = await Get(id);
             if (client.IsDeleted) return;
 
             client.IsDeleted = true;
@@ -69,7 +71,7 @@ namespace Lynx.Api.Services
 
         public async Task<Client> Update(int id, ClientModel model)
         {
-            var client = Get(id);
+            var client = await Get(id);
 
             client.About = model.About;
             client.Country = model.Country;

@@ -36,7 +36,7 @@ namespace Lynx.Tests.UnitTests
 
             _uow.Setup(x => x.Get<User>()).Returns(() => _users.AsQueryable());
         }
-
+        
         [Fact]
         public void GetShouldReturnAll()
         {

@@ -8,6 +8,7 @@ namespace Lynx.Api.Models.BusinessUnit
 {
     public class BusinessUnitModel
     {
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         public string Reference { get; set; }

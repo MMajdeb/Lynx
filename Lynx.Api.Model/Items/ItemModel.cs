@@ -1,18 +1,27 @@
 ﻿using Lynx.Enum;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Lynx.Data.Models
+namespace Lynx.Api.Models
 {
-    public class Item
+    public class ItemModel
     {
+        public ItemModel()
+        {
+            items = new int[0];
+            Units = new int[0];
+        }
+
         public int Id { get; set; }
+        [Required]
         public string Barcode { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public double Price { get; set; }
+        [Required]
         public double Cost { get; set; }
         public string Color { get; set; }
         public int Length { get; set; }
@@ -28,22 +37,15 @@ namespace Lynx.Data.Models
         public double LastCost { get; set; }
         public string Notes { get; set; }
         public ItemType Type { get; set; }
-        public bool IsDeleted { get; set; }
 
-        public int? GroupId { get; set; }
-        public virtual Item Group { get; set; }
-        public int? CategoryId { get; set; }
-        public virtual Category Category { get; set; }
-        public int? DiscountId { get; set; }
-        public virtual Discount Discount { get; set; }
-        public int? TaxeId { get; set; }
-        public virtual Taxe Taxe { get; set; }
+        public int GroupId { get; set; }
+        public int CategoryId { get; set; }
+        public int DiscountId { get; set; }
+        public int TaxeId { get; set; }
+        [Required]
         public int StoreId { get; set; }
-        public Store Store { get; set; }
 
-        public virtual IList<Item> Items { get; set; }
-        public virtual IList<BillItem> BillItems { get; set; }
-        public virtual IList<Unit> Units { get; set; }
-
+        public int[] items { get; set; }
+        public int[] Units { get; set; }
     }
 }

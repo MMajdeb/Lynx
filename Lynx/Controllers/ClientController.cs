@@ -43,12 +43,10 @@ namespace Lynx.Controllers
         public async Task<ActionResult<ClientModel>> Update(int id, ClientModel client)
         {
             var item = await _service.Update(id, client);
-            return _mapper.Map<ClientModel>(client);
+            return _mapper.Map<ClientModel>(item);
         }
 
         // POST: api/Client
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public async Task<ActionResult<ClientModel>> Create(ClientModel client)
         {

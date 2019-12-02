@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Lynx.Api.Models.Client;
+using Lynx.Api.Models;
 using Lynx.Data.Models;
 using System;
 using System.Collections.Generic;

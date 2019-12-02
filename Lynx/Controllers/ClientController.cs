@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Lynx.Data.Models;
 using Lynx.Api.Services;
 using Lynx.Mappers;
-using Lynx.Api.Models.Client;
+using Lynx.Api.Models;
 
 namespace Lynx.Controllers
 {

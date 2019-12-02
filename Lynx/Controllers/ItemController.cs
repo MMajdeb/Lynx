@@ -17,7 +17,7 @@ namespace Lynx.Controllers
     [ApiController]
     public class ItemController : ControllerBase
     {
-        private IItemService _service;
+        private readonly IItemService _service;
         private readonly IAutoMapper _mapper;
 
         public ItemController(IItemService service, IAutoMapper mapper)

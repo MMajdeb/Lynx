@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lynx.Api.Common.Exceptions;
-using Lynx.Api.Models.Client;
+using Lynx.Api.Models;
 using Lynx.Data.Access.DAL.UnitOfWork;
 using Lynx.Data.Models;
 using Microsoft.EntityFrameworkCore;

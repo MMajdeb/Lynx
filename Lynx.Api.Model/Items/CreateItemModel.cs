@@ -31,10 +31,10 @@ namespace Lynx.Api.Models
         public string Notes { get; set; }
         public ItemType Type { get; set; }
 
-        public int GroupId { get; set; }
-        public int CategoryId { get; set; }
-        public int DiscountId { get; set; }
-        public int TaxeId { get; set; }
+        public int? GroupId { get; set; }
+        public int? CategoryId { get; set; }
+        public int? DiscountId { get; set; }
+        public int? TaxeId { get; set; }
         [Required]
         public int StoreId { get; set; }
     }

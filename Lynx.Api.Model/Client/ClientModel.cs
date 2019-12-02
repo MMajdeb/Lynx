@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Lynx.Api.Models.Client
+namespace Lynx.Api.Models
 {
     public class ClientModel
     {

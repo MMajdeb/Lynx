@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Lynx.Api.Services
 {
-    public interface IClientService
+    public interface IUnitService
     {
-        IQueryable<Client> Get();
-        Task<Client> Get(int id);
-        Task<Client> Create(ClientModel model);
-        Task<Client> Update(int id, ClientModel model);
+        IQueryable<Unit> Get();
+        Task<Unit> Get(int id);
+        Task<Unit> Create(UnitModel model);
+        Task<Unit> Update(int id, UnitModel model);
         Task Remove(int id);
     }
 }

@@ -54,10 +54,18 @@ namespace Lynx.Api.Services
                 Type = model.Type,
             };
 
+            await AddGroupItem(item, model.GroupId);
+
             _uow.Add<Item>(item);
             await _uow.CommitAsync();
 
             return item;
+        }
+
+        private async Task AddGroupItem(Item item, int? groupId)
+        {
+            if (groupId != null)
+                item.Group = await Get((int)groupId);
         }
 
         public IQueryable<Item> Get()
@@ -114,6 +122,8 @@ namespace Lynx.Api.Services
             item.WholeSalePrice = model.WholeSalePrice;
             item.Width = model.Width;
             item.Type = model.Type;
+
+            await AddGroupItem(item, model.GroupId);
 
             await _uow.CommitAsync();
             return item;

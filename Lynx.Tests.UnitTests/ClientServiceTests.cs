@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Lynx.Api.Common.Exceptions;
-using Lynx.Api.Models.Client;
+using Lynx.Api.Models;
 using Lynx.Api.Services;
 using Lynx.Data.Access.DAL.UnitOfWork;
 using Lynx.Data.Models;

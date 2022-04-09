@@ -44,7 +44,7 @@
         "highlight.js": "^10.4.1",
         "lodash": "^4.17.11",
         "material-design-icons": "^3.0.1",
-        "moment": "^2.24.0",
+        "moment": "^2.29.2",
         "ng-inline-svg": "^8.5.1",
         "ngrx-store-freeze": "^0.2.4",
         "ngx-clipboard": "^12.3.0",

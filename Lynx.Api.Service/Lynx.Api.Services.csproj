@@ -1,14 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Lynx.Api.Common\Lynx.Api.Common.csproj" />
     <ProjectReference Include="..\Lynx.Api.Model\Lynx.Api.Models.csproj" />
     <ProjectReference Include="..\Lynx.Data.Access\Lynx.Data.Access.csproj" />
     <ProjectReference Include="..\Lynx.Data.Model\Lynx.Data.Models.csproj" />
   </ItemGroup>
-
 </Project>
